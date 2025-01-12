@@ -1,0 +1,110 @@
+/* home.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+nav h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+.books-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.book {
+    width: calc(20% - 20px); /* 20% width for each book with a gap of 20px */
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    background-image: var(--book-background-image); /* Use the CSS variable */
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
+.book img {
+    max-width: 100%;
+    height: 280px;
+}
+
+.book form {
+    margin-top: 10px;
+}
+
+.book button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #555;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.book button:hover {
+    background-color: #777;
+}
+
+/* home.css */
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button.view-button {
+    background-color: #28a745; /* Green color */
+    width: 70%; /* Make the button as wide as the container */
+}
+
+.button.view-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+

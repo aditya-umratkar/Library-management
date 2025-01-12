@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account</title>
+    <link rel="stylesheet" href="{% static 'css/user_account.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <h1>Welcome, {{ user.username }}!</h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'user_account' %}">User Account</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Your Borrowed Books</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cover</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Borrowed Date</th>
+                    <th>Returned Date</th>
+                    <th>Late Fee</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for borrowed_book in borrowed_books %}
+                <tr>
+                    <td>
+                        {% if not borrowed_book.returned_date %}
+                            {% if borrowed_book.book.pdf %}
+                                <a href="{{ borrowed_book.book.pdf.url }}"><img src="{{ borrowed_book.book.book_cover.url }}" alt="{{ borrowed_book.book.title }}" width="50"></a>
+                            {% else %}
+                                <img src="{{ borrowed_book.book.book_cover.url }}" alt="{{ borrowed_book.book.title }}" width="50">
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ borrowed_book.book.book_cover.url }}" alt="{{ borrowed_book.book.title }}" width="50">
+                        {% endif %}
+                    </td>
+                    <td>{{ borrowed_book.book.title }}</td>
+                    <td>{{ borrowed_book.book.author }}</td>
+                    <td>{{ borrowed_book.borrowed_date }}</td>
+                    <td>{{ borrowed_book.returned_date|default:"Not returned yet" }}</td>
+                    <td>{{ borrowed_book.late_fee }} Rs</td>
+                    <td>
+                        {% if not borrowed_book.returned_date %}
+                        <form method="post" action="{% url 'return_book' borrowed_book.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Return</button>
+                        </form>
+                        {% else %}
+                        Returned
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No books borrowed yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

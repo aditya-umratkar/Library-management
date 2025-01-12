@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <h1>Welcome, {{ user.username }}!</h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'user_account' %}">User Account</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="books-grid">
+            {% for book in books %}
+                <div class="book">
+                    <a href="{% url 'book_detail' book.id %}">
+                        <img src="{{ book.book_cover.url }}" alt="{{ book.title }}">
+                    </a>
+                    <p>{{ book.title }}</p>
+                    <p>{{ book.author }}</p>
+                    <p>Quantity: {{ book.quantity }}</p>
+                    <a href="{% url 'book_detail' book.id %}" class="button view-button">View</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

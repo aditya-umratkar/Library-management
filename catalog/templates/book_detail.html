@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-left: 1em;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2em auto;
+            background: white;
+            padding: 2em;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .book-detail {
+            display: flex;
+            align-items: center;
+        }
+        .book-detail img {
+            max-width: 200px;  /* Set the maximum width for the image */
+            height: auto;
+            margin-right: 2em;
+        }
+        .book-detail-info {
+            flex: 1;
+        }
+        .book-detail-info h2 {
+            margin: 0.5em 0;
+        }
+        .book-detail-info p {
+            margin: 0.5em 0;
+        }
+        .book-detail-info form {
+            margin-top: 1em;
+        }
+        .book-detail-info button, .book-detail-info .cancel-button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .book-detail-info button:hover, .book-detail-info .cancel-button:hover {
+            background-color: #4cae4c;
+        }
+        .book-detail-info .cancel-button {
+            background-color: #d9534f; /* Red color for cancel button */
+        }
+        .book-detail-info .cancel-button:hover {
+            background-color: #c9302c;
+        }
+        .audio-control {
+            display: block; /* Make the audio control visible */
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <h1>Welcome, {{ user.username }}!</h1>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'user_account' %}">User Account</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="book-detail">
+            <img src="{{ book.book_cover.url }}" alt="{{ book.title }}">
+            <div class="book-detail-info">
+                <h1>{{ book.title }}</h1>
+                <h4>{{ book.description }}</h4>
+                <p>Author: {{ book.author }}</p>
+                <p>Quantity:<b> {{ book.quantity }}</b></p>
+                <form method="post" action="{% url 'borrow_book' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <button type="submit">Borrow</button>
+                    <a href="{% url 'home' %}" class="cancel-button">Cancel</a>
+                </form>
+                {% if book.audio_file %}
+                    <audio id="audio-{{ book.id }}" class="audio-control" controls>
+                        <source src="{{ book.audio_file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
